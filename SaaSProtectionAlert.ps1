@@ -20,12 +20,6 @@ foreach ($row in $reportData) {
     $reportArray += ,$innerArray
 }
 
-# Access the value from C3 (third row, third column)
-$valueFromC3 = $reportArray[2][2]
-
-# Display the value
-Write-Output "Value from C3: $valueFromC3"
-
 $errorRow = @()
 
 # Iterate through each row
@@ -33,13 +27,46 @@ foreach ($rowIndex in 0..($reportArray.Length - 1)) {
     foreach ($colIndex in 0..($reportArray[$rowIndex].Length - 1)) {
 
         if ($colIndex -eq 7) {
-            if ($reportArray[$rowIndex][$colIndex] -eq "Success with exception") {
+            $value = $reportArray[$rowIndex][$colIndex]
+            if ($value -ne "Completed Successfully") {
                 $errorRow += $rowIndex
             }
         }
     }
 }
 
+$isErrorRow = $false
+# Write each row
+foreach ($rowIndex in 0..($reportArray.Length - 1)) {
+    foreach ($testIfError in $errorRow) {
+        if ($testIfError -eq $rowIndex) {
+            $isErrorRow = $true
+        }
+    }
+    foreach ($colIndex in 0..($reportArray[$rowIndex].Length - 1)) {
+        if ($isErrorRow) {
+            if ($colIndex -eq 0) {
+                $value = $reportArray[$rowIndex][$colIndex]
+                Write-Output "Organization: $value"
+            }
+            if ($colIndex -eq 2) {
+                $value = $reportArray[$rowIndex][$colIndex]
+                Write-Output "Application: $value"
+            }
+            if ($colIndex -eq 7) {
+                $value = $reportArray[$rowIndex][$colIndex]
+                Write-Output "Error: $value `n"
+            }
+        }
+    }
+    $isErrorRow = $false
+}
+
+
+
+
+#An example of how you would write every cell of the array to output
+<#
 # Write each row
 foreach ($rowIndex in 0..($reportArray.Length - 1)) {
     foreach ($colIndex in 0..($reportArray[$rowIndex].Length - 1)) {
@@ -51,3 +78,4 @@ foreach ($rowIndex in 0..($reportArray.Length - 1)) {
         Write-Output "Value at [$rowIndex, $colIndex]: $value"
     }
 }
+#>
