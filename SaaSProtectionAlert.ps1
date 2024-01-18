@@ -64,9 +64,6 @@ foreach ($saasCustomerId in $customerData.Keys) {
     }
 }
 
-# Display the new hash table
-$appData
-
 # Filtered hash table to store customerName, appType, and status without "Perfect" status
 $filteredAppData = @{}
 
