@@ -53,7 +53,7 @@ foreach ($saasCustomerId in $customerData.Keys) {
         foreach ($suite in $item.suites) {
             foreach ($appTypeData in $suite.appTypes) {
                 foreach ($backupHistory in $appTypeData.backupHistory) {
-                    if ($backupHistory.timeWindow -eq "Between0dAnd1d") {
+                    if ($backupHistory.timeWindow -eq "Between1dAnd2d") {
                         $appType = $appTypeData.appType
                         $status = $backupHistory.status
                         $appData["$saasCustomerId-$customerName-$appType"] = $status
