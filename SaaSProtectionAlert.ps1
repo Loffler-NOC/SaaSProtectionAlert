@@ -80,3 +80,13 @@ foreach ($entry in $appData.GetEnumerator()) {
 
 # Display the filtered hash table without truncation
 $filteredAppData | Format-Table -AutoSize
+
+# Check if $filteredAppData is empty
+if ($filteredAppData.Count -eq 0) {
+    # Exit with code 0
+    exit 0
+} else {
+    # Exit with code 1
+    exit 1
+}
+
