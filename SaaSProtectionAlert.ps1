@@ -42,9 +42,16 @@ foreach ($saasCustomerId in $customerData.Keys) {
     # Construct the full API URL
     $apiUrl = $newApiUrl -f $saasCustomerId
 
-    # Invoke API request for each saasCustomerID
-    $response = Invoke-RestMethod -Uri $apiUrl -Method Get -Headers @{
-        Authorization = "Basic $($base64AuthInfo)"
+    try {
+        # Invoke API request for each saasCustomerID
+        $response = Invoke-RestMethod -Uri $apiUrl -Method Get -Headers @{
+            Authorization = "Basic $($base64AuthInfo)"
+        }
+    }
+    catch {
+        $response = Invoke-RestMethod -Uri $apiUrl -Method Get -Headers @{
+            Authorization = "Basic $($base64AuthInfo)"
+        }
     }
 
     # Process each item in the response and save required data to the new hash table
